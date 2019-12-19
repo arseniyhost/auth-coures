@@ -1,0 +1,14 @@
+#btnAddRecipe a {
+    font-size: 18px;
+    padding: 0px;
+    color: #fff;
+    transition: .4s all;
+}
+
+#btnAddRecipe {
+    margin-left: 20px;
+}
+
+#btnAddRecipe a:hover {
+    color: #abc;
+}

@@ -1,0 +1,35 @@
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './../actions/types';
+import * as axios from 'axios';
+import { tokenConfig } from './authActions';
+import { returnErrors } from './errorActions';
+
+export const getItems = () => (dispatch) => {
+    dispatch(setItemsLoading());
+    axios
+        .get('/api/recipes')
+        .then(res => dispatch({
+            type: GET_ITEMS,
+            payload: res.data
+        }))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const addItem = (item) => (dispatch, getState) => {
+    axios
+        .post('api/recipes', item, tokenConfig(getState))
+        .then(res => dispatch({
+            type: ADD_ITEM,
+            payload: res.data
+        }))
+};
+
+export const deleteItem = (id) => (dispatch, getState) => {
+    axios.delete(`/api/recipes/${id}`, tokenConfig(getState)).then(res =>
+        dispatch({
+            type: DELETE_ITEM,
+            payload: id
+        })
+    )
+};
+
+export const setItemsLoading = () => ({ type: ITEMS_LOADING });
